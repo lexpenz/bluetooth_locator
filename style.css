@@ -193,18 +193,29 @@ img, video { display: block; max-width: 100%; }
 }
 .facts li + li::before { content: "·"; margin-right: 10px; color: var(--faint); }
 
-/* An app screen: the capture without its status bar, in a hairline frame. */
-.screen {
-  position: relative;
-  aspect-ratio: 640 / 1307;
+/*
+  An app screen in a phone, drawn like the App Store screenshots
+  (scripts/compose-screenshots.py in the app repo): the full 1320 × 2868
+  capture, status bar and Dynamic Island included, a black bezel of 20 on a
+  980-wide screen, the display's 140 corner radius, a hairline outline.
+  The bezel is in cqw so it scales with the phone, not its column.
+*/
+.phone {
+  container-type: inline-size;
+  background: #000;
   border: 1px solid var(--line);
-  border-radius: 32px;
+  border-radius: 15.7% / 7.4%;
+}
+.phone .display {
+  margin: calc(1.96cqw - 1px); /* the outline is part of the bezel */
+  aspect-ratio: 1320 / 2868;
+  border-radius: 14.3% / 6.6%;
   overflow: hidden;
   background: var(--ink);
+  transform: translateZ(0); /* Safari: clip the video to the rounded corners */
 }
-.screen img, .screen video { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.phone img, .phone video { width: 100%; height: 100%; object-fit: cover; object-position: top; }
 .hero-media { margin: 0; }
-.hero .screen { border-radius: 36px; }
 .hero-media figcaption {
   display: flex;
   align-items: center;
@@ -242,12 +253,12 @@ img, video { display: block; max-width: 100%; }
 .steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
+  gap: 56px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.step .screen { margin-bottom: 20px; }
+.step .phone { max-width: 280px; margin-bottom: 24px; }
 .step h3 { font-size: 1.2rem; margin: 0 0 6px; }
 .step p { color: var(--text2); margin: 0; font-size: 16px; }
 
@@ -266,15 +277,15 @@ img, video { display: block; max-width: 100%; }
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: minmax(200px, 1fr);
-  gap: 20px;
-  margin: 0 0 44px;
+  gap: 40px;
+  margin: 0 0 56px;
   padding: 0 0 8px;
   list-style: none;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
 }
 .gallery li { scroll-snap-align: start; }
-.gallery .screen { border-radius: 26px; margin-bottom: 14px; }
+.gallery .phone { margin-bottom: 18px; }
 .gallery h3 { font-size: 1rem; margin: 0 0 2px; }
 .gallery p { color: var(--text2); font-size: 14px; margin: 0; }
 
@@ -423,7 +434,7 @@ td:first-child { color: var(--text); white-space: nowrap; }
   .hero .wrap { grid-template-columns: 1fr; gap: 44px; }
   .hero-media { width: min(280px, 78vw); margin: 0 auto; }
   .steps { grid-template-columns: 1fr; gap: 44px; }
-  .step .screen { width: min(280px, 78vw); }
+  .step .phone { width: min(280px, 78vw); }
   .split, .plans, .limits { grid-template-columns: 1fr; gap: 14px; }
   .split { gap: 32px; }
   .section { padding: 56px 0; }
